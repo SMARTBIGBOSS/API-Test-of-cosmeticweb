@@ -32,9 +32,9 @@ app.use('/users', usersRouter);
 
 app.use("*", function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With, token");
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-    res.header("Access-Control-Expose-Headers", "token");
+    res.header("Access-Control-Expose-Headers", "x-auth-token");
     if (req.method === 'OPTIONS') {
         res.send(200)
     } else {
@@ -43,7 +43,7 @@ app.use("*", function (req, res, next) {
 });
 
 app.get('/cosmetics', cosmetics.findAll);
-app.get('/cosmetic/:cosmeticId', cosmetics.findOne);
+app.get('/cosmetic/:id', cosmetics.findOne);
 app.get('/cosmetics/sortByLowPrice', cosmetics.sortByLowPrice);
 app.get('/cosmetics/sortByHighPrice', cosmetics.sortByHighPrice);
 app.get('/cosmetics/:name', cosmetics.findByName);
@@ -55,7 +55,7 @@ app.get('/transaction/:buyerId', auth.authCustomer, transactions.findByBuyerId);
 app.get('/transactions', transactions.findAll);
 app.get('/transactions/countSales', transactions.countSales);
 
-app.put('/cosmetics/:cosmeticId/edit', auth.authSeller, cosmetics.editByID);
+app.put('/cosmetics/:publisher/:cosmeticId/edit', auth.authSeller, cosmetics.editByID);
 app.put('/customer/:customerId/edit', auth.authCustomer, customers.editByID);
 app.put('/seller/:sellerId/edit', auth.authSeller, sellers.editByID);
 app.put('/transaction/:buyerId/:id/edit', auth.authCustomer, transactions.edit);
@@ -63,7 +63,6 @@ app.put('/transaction/:id/order', auth.authCustomer, transactions.order);
 app.put('/transaction/:id/delivery', auth.authSeller, transactions.delivery);
 app.put('/transaction/:id/confirmReceipt', auth.authCustomer, transactions.ConfirmReceipt);
 
-app.post('/cosmetic/add', cosmetics.addCosmeticWithoutpublisher);
 app.post('/cosmetics/:publisher/add', auth.authSeller, cosmetics.addCosmetic);
 app.post('/customer/signUp', customers.signUp);
 app.post('/customer/login', customers.login);
@@ -73,7 +72,7 @@ app.post('/transaction/:buyerId/add/:cosmeId',auth.authCustomer, transactions.ad
 app.post('/customer/:id/uploadLogo', auth.authCustomer, user_images.uploadImage);
 app.post('/seller/:id/uploadLogo', auth.authSeller, user_images.uploadImage);
 
-app.delete('/cosmetics/:cosmeticId/delete', cosmetics.removeCosmetic);
+app.delete('/cosmetics/:publisher/:cosmeticId/delete', auth.authSeller, cosmetics.removeCosmetic);
 app.delete('/transaction/:buyerId/:id/remove', auth.authCustomer, transactions.remove);
 
 

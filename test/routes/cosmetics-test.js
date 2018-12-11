@@ -47,7 +47,7 @@ describe('Cosmetics', function () {
                 {
                     'cosmeticId': '1001',
                     'name': 'Test Cosmetic_1',
-                    'brand': 'MyBrand',
+                    'brand': 'Test Brand',
                     'price': 5.00,
                     'publisher': '2000',
                     'release_date': Date.now()
@@ -59,7 +59,7 @@ describe('Cosmetics', function () {
             console.log(e);
         }
     });
-	
+
     describe('Get /cosmetics', () => {
         it('should return all cosmetics', function (done) {
             chai.request(server).get('/cosmetics').end(function (err, res) {
@@ -288,7 +288,7 @@ describe('Cosmetics', function () {
             });
         });
     });
-	
+
     after(function(done){
         try{
             db.collection('cosmetics').deleteMany({'cosmeticId': { $in: ['1001'] }});

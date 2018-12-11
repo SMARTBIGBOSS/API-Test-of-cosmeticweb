@@ -3,7 +3,7 @@ let express = require('express');
 let router = express.Router();
 let mongoose =require('mongoose');
 
-let mongodbUri = 'mongodb://cosmeticdb:cosmeticdb100@ds157538.mlab.com:57538/cosmeticdb';
+let mongodbUri = 'mongodb://tester:tester100@ds143593.mlab.com:43593/testcosmeticweb';
 
 mongoose.connect(mongodbUri);
 
@@ -67,7 +67,7 @@ router.findAll = (req, res) => {
 router.findOne = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
-    Cosmetic.find({cosmeticId: req.params.cosmeticId},function(err, cosmetic) {
+    Cosmetic.findById(req.params.id,function(err, cosmetic) {
         if (err)
             res.json({ message: 'Cosmetic NOT Found!', errmsg : err } );
         else
@@ -104,7 +104,7 @@ router.editByID = (req, res) => {
         name: req.body.name,
         brand: req.body.brand,
         price: req.body.price,
-        publisher: req.body.publisher,
+        publisher: req.params.publisher,
         release_date: Date.now()
     });
 
@@ -130,31 +130,14 @@ router.editByID = (req, res) => {
 };
 
 router.removeCosmetic = (req, res) =>{
-    Cosmetic.findOneAndRemove({cosmeticId: req.params.cosmeticId}, function (err) {
+    Cosmetic.findOneAndRemove({publisher: req.params.publisher, cosmeticId: req.params.cosmeticId}, function (err) {
         if(err)
             res.json({ message: 'Cosmetic NOT DELETED!', errmsg : err } );
         else
             res.json({ message: 'Cosmetic Successfully Deleted!'});
     });
 };
-router.addCosmeticWithoutpublisher = (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
 
-    let cosmetic = new Cosmetic();
-    cosmetic.cosmeticId = req.body.cosmeticId;
-    cosmetic.name = req.body.name;
-    cosmetic.brand = req.body.brand;
-    cosmetic.price = req.body.price;
-    cosmetic.publisher = req.body.publisher;
-    cosmetic.release_date = Date.now();
-
-    cosmetic.save(function (err) {
-        if(err)
-            res.json({ message: 'Cosmetic NOT Added!', errmsg : err });
-        else
-            res.json({ message: 'Cosmetic Successfully Added!', data: cosmetic });
-    });
-};
 router.addCosmetic = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
