@@ -1,3 +1,5 @@
+<a href='https://coveralls.io/github/SMARTBIGBOSS/API-Test-of-cosmeticweb'><img src='https://coveralls.io/repos/github/SMARTBIGBOSS/API-Test-of-cosmeticweb/badge.svg' alt='Coverage Status' /></a>
+
 # Assignment 2 - Web API - Automated development process.
 
 Name: Anqi Li 
