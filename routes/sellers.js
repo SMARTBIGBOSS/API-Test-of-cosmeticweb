@@ -5,7 +5,7 @@ let router = express.Router();
 let mongoose = require('mongoose');
 let jwt = require('jsonwebtoken');
 
-let mongodbUri = 'mongodb://tester:tester100@ds143593.mlab.com:43593/testcosmeticweb';
+let mongodbUri = 'mongodb://cosmeticdb:cosmeticdb100@ds157538.mlab.com:57538/cosmeticdb';
 
 mongoose.connect(mongodbUri);
 
@@ -50,7 +50,7 @@ router.login = (req, res) => {
             if(bcrypt.compareSync(req.body.password,seller.password)){
                 // let token = jwt.sign({_id: seller._id}, 'sellerJwtKey');
                 let token = seller.generateAuthToken();
-                res.header('x-auth-token',token);
+                res.header('token',token);
                 res.json({message: 'Seller Successfully Login', data: seller });
             }
             else

@@ -4,7 +4,7 @@ let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
 
-let mongodbUri = 'mongodb://tester:tester100@ds143593.mlab.com:43593/testcosmeticweb';
+let mongodbUri = 'mongodb://cosmeticdb:cosmeticdb100@ds157538.mlab.com:57538/cosmeticdb';
 
 mongoose.connect(mongodbUri);
 
@@ -27,7 +27,7 @@ router.login = (req, res) => {
         else{
             if(bcrypt.compareSync(req.body.password,customer.password)){
                 let token = customer.generateAuthToken();
-                res.header('x-auth-token',token);
+                res.header('token',token);
                 res.json({ message: 'Customer Successfully Login', data: customer });
             }
             else
